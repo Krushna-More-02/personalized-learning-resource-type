@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recommended for you — Pathwise</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="app-shell">
+  <aside class="sidebar">
+    <a href="dashboard.html" class="brand">Pathwise</a>
+    <nav>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="recommendations.html" class="active">Recommended for you</a>
+      <a href="admin.html">Add Marks</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div id="sidebar-name" style="color:#FBF8F0; margin-bottom:10px;"></div>
+      <button id="logout-btn">Log out</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="page-header">
+      <h1 class="greeting" id="greeting">Recommended for you</h1>
+      <div class="meta" id="meta">Loading recommendations…</div>
+    </div>
+
+    <section class="block">
+      <h2 class="section-title">Start with your weakest topics</h2>
+      <div class="section-sub">Ranked by how much they're pulling your average down, most urgent first.</div>
+      <div id="rec-list">
+        <div class="loading-note">Matching resources to your weak topics…</div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/recommendations.js"></script>
+<script>
+  document.getElementById("sidebar-name").textContent = getCurrentStudent().full_name;
+  document.getElementById("logout-btn").onclick = () => {
+    sessionStorage.clear();
+    window.location.href = "index.html";
+  };
+</script>
+</body>
+</html>

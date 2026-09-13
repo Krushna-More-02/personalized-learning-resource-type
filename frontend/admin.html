@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Add Marks — Pathwise</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="app-shell">
+  <aside class="sidebar">
+    <a href="dashboard.html" class="brand">Pathwise</a>
+    <nav>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="recommendations.html">Recommended for you</a>
+      <a href="admin.html" class="active">Add Marks</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div id="sidebar-name" style="color:#FBF8F0; margin-bottom:10px;"></div>
+      <button id="logout-btn">Log out</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="page-header">
+      <h1 class="greeting">Add marks</h1>
+      <div class="meta">Record a topic-level score for any student — no database tool needed.</div>
+    </div>
+
+    <section class="block">
+      <h2 class="section-title">Record a score</h2>
+      <div class="section-sub">Pick the student, subject, topic and exam, then enter the score.</div>
+
+      <div id="mark-success" class="auth-error" style="background:#E4EFE2; border-color:var(--sage); color:#2F4A2E; display:none;"></div>
+      <div id="mark-error" class="auth-error"></div>
+
+      <form id="mark-form" style="max-width: 480px;">
+        <div class="field">
+          <label for="f-student">Student</label>
+          <select id="f-student" required></select>
+        </div>
+
+        <div class="field">
+          <label for="f-subject">Subject</label>
+          <select id="f-subject" required></select>
+        </div>
+
+        <div class="field">
+          <label for="f-topic">Topic</label>
+          <select id="f-topic" required></select>
+        </div>
+
+        <div class="field">
+          <label for="f-exam">Exam</label>
+          <select id="f-exam" required></select>
+        </div>
+
+        <div class="field">
+          <label for="f-obtained">Marks obtained</label>
+          <input type="number" id="f-obtained" min="0" step="0.5" required>
+        </div>
+
+        <div class="field">
+          <label for="f-max">Out of (max marks)</label>
+          <input type="number" id="f-max" min="1" step="0.5" required value="25">
+        </div>
+
+        <button type="submit" class="btn-primary">Save mark</button>
+      </form>
+    </section>
+
+    <section class="block">
+      <h2 class="section-title">No exam listed yet?</h2>
+      <div class="section-sub">Create a new exam first, then it'll show up in the dropdown above.</div>
+
+      <div id="exam-success" class="auth-error" style="background:#E4EFE2; border-color:var(--sage); color:#2F4A2E; display:none;"></div>
+      <div id="exam-error" class="auth-error"></div>
+
+      <form id="exam-form" style="max-width: 480px;">
+        <div class="field">
+          <label for="e-name">Exam name</label>
+          <input type="text" id="e-name" required placeholder="e.g. Unit Test 3">
+        </div>
+        <div class="field">
+          <label for="e-subject">Subject</label>
+          <select id="e-subject" required></select>
+        </div>
+        <div class="field">
+          <label for="e-date">Exam date</label>
+          <input type="date" id="e-date" required>
+        </div>
+        <button type="submit" class="btn-primary">Create exam</button>
+      </form>
+    </section>
+  </main>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/admin.js"></script>
+<script>
+  document.getElementById("sidebar-name").textContent = getCurrentStudent().full_name;
+  document.getElementById("logout-btn").onclick = () => {
+    sessionStorage.clear();
+    window.location.href = "index.html";
+  };
+</script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard — Pathwise</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="app-shell">
+  <aside class="sidebar">
+    <a href="dashboard.html" class="brand">Pathwise</a>
+    <nav>
+      <a href="dashboard.html" class="active">Dashboard</a>
+      <a href="recommendations.html">Recommended for you</a>
+      <a href="admin.html">Add Marks</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div id="sidebar-name" style="color:#FBF8F0; margin-bottom:10px;"></div>
+      <button id="logout-btn">Log out</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="page-header">
+      <h1 class="greeting" id="greeting">Good to see you</h1>
+      <div class="meta" id="meta">Loading your performance ledger…</div>
+
+      <div class="stat-strip">
+        <div class="stat"><strong id="stat-overall">—</strong><span>Overall average</span></div>
+        <div class="stat"><strong id="stat-weak">—</strong><span>Topics needing work</span></div>
+        <div class="stat"><strong id="stat-strong">—</strong><span>Topics mastered</span></div>
+      </div>
+    </div>
+
+    <section class="block">
+      <h2 class="section-title">Performance ledger</h2>
+      <div class="section-sub">Every topic you've been tested on, grouped by subject — worst first within each.</div>
+      <div id="ledger">
+        <div class="loading-note">Reading your latest scores…</div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/dashboard.js"></script>
+<script>
+  document.getElementById("sidebar-name").textContent = getCurrentStudent().full_name;
+  document.getElementById("logout-btn").onclick = () => {
+    sessionStorage.clear();
+    window.location.href = "index.html";
+  };
+</script>
+</body>
+</html>

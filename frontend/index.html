@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pathwise — Personalized Learning</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="auth-shell">
+  <div class="auth-hero">
+    <div class="brand">Pathwise</div>
+    <div class="pitch">
+      <h1>Study the twelve topics that actually move your grade.</h1>
+      <p>Pathwise reads your test scores topic by topic, flags exactly where you're losing marks, and lines up the right resource for each one — so revision time goes where it counts.</p>
+    </div>
+    <div class="ledger-preview">
+      <div><strong>44%</strong>Quadratic Equations</div>
+      <div><strong>36%</strong>Optics</div>
+      <div><strong>88%</strong>Newton's Laws</div>
+    </div>
+  </div>
+
+  <div class="auth-panel">
+    <div class="auth-card">
+
+      <div id="login-view">
+        <h2>Welcome back</h2>
+        <div class="sub">Log in to see your latest performance ledger.</div>
+        <div class="auth-error" id="login-error"></div>
+        <form id="login-form">
+          <div class="field">
+            <label for="login-email">Email</label>
+            <input type="email" id="login-email" required placeholder="you@school.edu">
+          </div>
+          <div class="field">
+            <label for="login-password">Password</label>
+            <input type="password" id="login-password" required placeholder="••••••••">
+          </div>
+          <button type="submit" class="btn-primary">Log in</button>
+        </form>
+        <div class="auth-switch">
+          New here? <button type="button" id="show-register">Create an account</button>
+        </div>
+        <div class="demo-hint">Try it instantly — demo@student.com / password123</div>
+      </div>
+
+      <div id="register-view" style="display:none;">
+        <h2>Create your account</h2>
+        <div class="sub">Takes under a minute.</div>
+        <div class="auth-error" id="register-error"></div>
+        <form id="register-form">
+          <div class="field">
+            <label for="reg-name">Full name</label>
+            <input type="text" id="reg-name" required placeholder="Your name">
+          </div>
+          <div class="field">
+            <label for="reg-email">Email</label>
+            <input type="email" id="reg-email" required placeholder="you@school.edu">
+          </div>
+          <div class="field">
+            <label for="reg-grade">Class / Grade</label>
+            <input type="text" id="reg-grade" required placeholder="e.g. 10th">
+          </div>
+          <div class="field">
+            <label for="reg-password">Password</label>
+            <input type="password" id="reg-password" required placeholder="••••••••">
+          </div>
+          <button type="submit" class="btn-primary">Create account</button>
+        </form>
+        <div class="auth-switch">
+          Already have an account? <button type="button" id="show-login">Log in</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="js/api.js"></script>
+<script>
+  const loginView = document.getElementById("login-view");
+  const registerView = document.getElementById("register-view");
+
+  document.getElementById("show-register").onclick = () => {
+    loginView.style.display = "none";
+    registerView.style.display = "block";
+  };
+  document.getElementById("show-login").onclick = () => {
+    registerView.style.display = "none";
+    loginView.style.display = "block";
+  };
+
+  document.getElementById("login-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const errorBox = document.getElementById("login-error");
+    errorBox.style.display = "none";
+    const email = document.getElementById("login-email").value.trim();
+    const password = document.getElementById("login-password").value;
+
+    try {
+      const data = await loginRequest(email, password);
+      setCurrentStudent(data.student);
+      window.location.href = "dashboard.html";
+    } catch (err) {
+      errorBox.textContent = err.message || "Could not log in. Check your details.";
+      errorBox.style.display = "block";
+    }
+  });
+
+  document.getElementById("register-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const errorBox = document.getElementById("register-error");
+    errorBox.style.display = "none";
+
+    const payload = {
+      full_name: document.getElementById("reg-name").value.trim(),
+      email: document.getElementById("reg-email").value.trim(),
+      class_grade: document.getElementById("reg-grade").value.trim(),
+      password: document.getElementById("reg-password").value,
+    };
+
+    try {
+      await registerRequest(payload);
+      registerView.style.display = "none";
+      loginView.style.display = "block";
+      document.getElementById("login-email").value = payload.email;
+    } catch (err) {
+      errorBox.textContent = err.message || "Could not create account. Is the backend running?";
+      errorBox.style.display = "block";
+    }
+  });
+</script>
+</body>
+</html>
